@@ -162,16 +162,16 @@
         },
         {
             "name": "moosend/website-tracking",
-            "version": "1.12.49",
+            "version": "1.12.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moosend/website-tracking-php.git",
-                "reference": "99289a952f7acc7e1016e2d5f07e5205cfe0f888"
+                "reference": "ed5d301c779b8bd66625fe7ba413d2d944ff6282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moosend/website-tracking-php/zipball/99289a952f7acc7e1016e2d5f07e5205cfe0f888",
-                "reference": "99289a952f7acc7e1016e2d5f07e5205cfe0f888",
+                "url": "https://api.github.com/repos/moosend/website-tracking-php/zipball/ed5d301c779b8bd66625fe7ba413d2d944ff6282",
+                "reference": "ed5d301c779b8bd66625fe7ba413d2d944ff6282",
                 "shasum": ""
             },
             "require": {
@@ -201,7 +201,7 @@
                 }
             ],
             "description": "By installing the Moosend PHP Tracking library you are can track page views, product views, add to cart events and successful purchases. You can later use these details to segment your user base, run automations, check how successful your latest promo has been and how many conversions your landing page has led to.",
-            "time": "2018-03-02T21:09:09+00:00"
+            "time": "2018-03-13T18:17:52+00:00"
         },
         {
             "name": "react/promise",
@@ -1270,7 +1270,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.5",
+            "version": "v3.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
