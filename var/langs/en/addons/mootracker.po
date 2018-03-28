@@ -1,0 +1,41 @@
+msgid ""
+msgstr "Project-Id-Version: tygh"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: English\n"
+"Language: en_US"
+
+msgctxt "Addons::name::mootracker"
+msgid "Moosend Website Tracking"
+msgstr "Moosend Website Tracking"
+
+msgctxt "Addons::description::mootracker"
+msgid "Moosend Website Tracking"
+msgstr "Moosend Website Tracking"
+
+msgctxt "SettingsSections::mootracker::general"
+msgid "General"
+msgstr "General"
+
+msgctxt "SettingsOptions::mootracker::general"
+msgid "General"
+msgstr "General"
+
+msgctxt "SettingsOptions::mootracker::site_id"
+msgid "Enter your Website ID"
+msgstr "Enter your Website ID"
+
+msgctxt "SettingsOptions::mootracker::site_checkbox"
+msgid "Website Checkbox"
+msgstr "Website Checkbox"
+
+msgctxt "SettingsTooltips::mootracker::site_id"
+msgid "Please find your Website ID by clicking the corresponding Tracked Website under your account settings of your Moosend Account (Account -> Tracked Websites)."
+msgstr "Please find your Website ID by clicking the corresponding Tracked Website under your account settings of your Moosend Account (Account -> Tracked Websites)."
+
+msgctxt "Languages::mootracker_no_website_id_notification"
+msgid "In order to make it work, Moosend Email Marketing requires a Website ID. <a href=\"[addon_link]\">Click here to update your Website ID</a>"
+msgstr ""
+
+msgctxt "SettingsTooltips::mootracker::site_checkbox"
+msgid "Checkbox"
+msgstr "Checkbox"

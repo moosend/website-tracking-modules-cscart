@@ -1,0 +1,16 @@
+div[id^="content_mootracker"] #container_addon_option_mootracker_site_checkbox {
+	display: none;
+}
+
+#addon_mootrackerinstalled .bg-icon,
+#addon_mootracker .bg-icon {
+    background-image: url('../../../media/images/addons/mootracker/images/addon_icon.png');
+    background-size: contain;
+    border: 0px;
+    background-color: transparent;
+}
+
+#addon_mootrackerinstalled .bg-icon i,
+#addon_mootracker .bg-icon i {
+    display: none;
+}
