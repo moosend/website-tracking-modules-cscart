@@ -1,6 +1,6 @@
 <?php
 
-class MooTrackerTest extends \PHPUnit_Framework_TestCase {
+class MooTrackerTest extends \PHPUnit\Framework\TestCase {
 
     public $tracker;
     public $trackerFactory;
@@ -60,6 +60,24 @@ class MooTrackerTest extends \PHPUnit_Framework_TestCase {
         set_tracker_factory($this->trackerFactory, '');
 
         fn_mootracker_post_add_to_cart($product_data, null, null);
+
+        \Tygh\Registry::set(\Tygh\Registry::get());
+    }
+
+    public function test_delete_cart_product() {
+        $this->tracker->expects($this->once())->method('removeFromOrder');
+
+        set_tracker_factory($this->trackerFactory, \Tygh\Registry::get());
+        $cart_id = 123;
+        $cart = array(
+            'products' => array(
+                $cart_id => array(
+                    'product_id' => 123
+                )
+            )
+        );
+        fn_mootracker_delete_cart_product($cart, $cart_id);
+        \Tygh\Registry::set('');
     }
 
     public function test_it_does_not_track_identify_if_there_is_no_site_id() {
@@ -103,6 +121,7 @@ class MooTrackerTest extends \PHPUnit_Framework_TestCase {
             'product'   =>  'product',
             'amount'    => 12,
             'meta_description'  =>  'Some Description',
+            'price' => 12.22,
             'main_category' =>  2
         ];
 
@@ -124,7 +143,13 @@ class MooTrackerTest extends \PHPUnit_Framework_TestCase {
             'product'   =>  'product',
             'amount'    => 12,
             'meta_description'  =>  'Some Description',
-            'main_category' =>  2
+            'price' => 12.22,
+            'main_category' =>  2,
+            'category_ids' => array(
+                'Category 1',
+                'Category 2'
+            ),
+            'header_features' => array()
         ];
 
         $this->tracker->expects($this->never())->method('pageView');

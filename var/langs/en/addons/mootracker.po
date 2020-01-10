@@ -39,3 +39,7 @@ msgstr ""
 msgctxt "SettingsTooltips::mootracker::site_checkbox"
 msgid "Checkbox"
 msgstr "Checkbox"
+
+msgctxt "SettingsOptions::sample_addon::marketplace_license_number"
+msgid "Marketplace license number"
+msgstr "Marketplace license number"

@@ -33,7 +33,9 @@ namespace {
 
     function fn_get_product_data() {
         return [
-            'product_id'    => 12,
+            'product_id'    => [
+                'product_id' => 12
+            ],
             'main_pair' =>  [
                 'detailed'  =>  [
                     'image_path'    =>  'https://image-path.com/image.png'
@@ -81,5 +83,16 @@ namespace Tygh {
             self::$site_id = $name;
         }
 
+    }
+
+}
+
+namespace {
+    class Tygh {
+        public static $app = array(
+            'session' => array(
+                'auth' => array()
+            )
+        );
     }
 }

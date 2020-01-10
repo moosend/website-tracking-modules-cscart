@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <addon scheme="3.0" edition_type="ROOT,ULT:VENDOR">
     <id>mootracker</id>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <priority>100500</priority>
     <status>active</status>
     <default_language>en</default_language>
     <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
     <compatibility>
+        <core_version>
+            <min>4.6.1</min>
+            <max>4.11.2</max>
+        </core_version>
         <php_version>
             <min>5.6.0</min>
         </php_version>
@@ -22,6 +26,9 @@
                     <item id="site_id">
                         <type>input</type>
                         <default_value></default_value>
+                    </item>
+                    <item id="marketplace_license_number">
+                        <type>input</type>
                     </item>
                     <item id="site_checkbox">
                         <type>checkbox</type>
