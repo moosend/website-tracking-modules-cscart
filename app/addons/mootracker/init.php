@@ -9,7 +9,7 @@ fn_register_hooks(
     'set_admin_notification',
     'get_product_data_post',
     'post_add_to_cart',
-    'delete_cart_product',
+    //'delete_cart_product',
     'login_user_post',
     'place_order'
 );

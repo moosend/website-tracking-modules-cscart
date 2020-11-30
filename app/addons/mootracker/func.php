@@ -67,7 +67,7 @@ function getCurrentUrl()
     $protocol = 'http://';
 
     if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) {
+        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) {
         $protocol = 'https://';
     }
 
@@ -93,7 +93,7 @@ function fn_mootracker_set_admin_notification()
 
 /**
  * Track pageView events only for client-side pages and non-product pages
- * @param  $status     [description]
+ * @param  $status [description]
  * @param  {string} $area       [Can be 'C' or 'A' - C = Client, A = Admin]
  * @param  {string} $controller [Each page has it's own controller, can be 'products' or 'index', etc.]
  * @return void
@@ -117,14 +117,6 @@ function fn_mootracker_dispatch_before_send_response($status, $area, $controller
             } catch (Exception $err) {
                 trigger_error('Could not track events for MooTracker', E_USER_WARNING);
             }
-        }
-    }
-    //JS TRACKER
-    if (!empty($site_id) && strpos($_SERVER['REQUEST_URI'],'admin.php') == false){
-        try {
-            echo '<script type="text/javascript">!function(t,n,e,o,a){function d(t){var n=~~(Date.now()/3e5),o=document.createElement(e);o.async=!0,o.src=t+"?ts="+n;var a=document.getElementsByTagName(e)[0];a.parentNode.insertBefore(o,a)}t.MooTrackerObject=a,t[a]=t[a]||function(){return t[a].q?void t[a].q.push(arguments):void(t[a].q=[arguments])},window.attachEvent?window.attachEvent("onload",d.bind(this,o)):window.addEventListener("load",d.bind(this,o),!1)}(window,document,"script","//cdn.stat-track.com/statics/moosend-tracking.min.js","mootrack");mootrack(\'init\',"'.$site_id.'");</script>';
-        } catch (Exception $err) {
-            trigger_error('Could not track events for MooTracker JS', E_USER_WARNING);
         }
     }
 }
@@ -151,19 +143,19 @@ function fn_mootracker_post_add_to_cart($product_data, $cart, $auth, $update)
         $old_amounts = array();
         $new_amounts = array();
         $difference = array();
-        
+
         foreach ($productArray as $product_id) {
             $old_amounts[$product_id] = intval($store['products'][$product_id]['amount']);
             $new_amounts[$product_id] = intval($product_data[$product_id]['amount']);
             $difference[$product_id] = $new_amounts[$product_id] - $old_amounts[$product_id];
         }
-        
+
         foreach ($difference as $product_id => $quantity) {
             if ($quantity > 0) {
-                add_to_cart($product_id, $quantity);
+                //add_to_cart($product_id, $quantity);
             }
             if ($quantity < 0) {
-                remove_from_cart($product_id, abs($quantity));
+                //remove_from_cart($product_id, abs($quantity));
             }
         }
     } else {
@@ -190,11 +182,15 @@ function fn_mootracker_post_add_to_cart($product_data, $cart, $auth, $update)
         $props['itemCategory'] = get_category_names($product['category_ids']);
         $props['itemManufacturer'] = get_product_manufacturer($product);
 
-        $tracker->addToOrder($product_id, $itemPrice, $productUrl, $quantity, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
+        try {
+            $tracker->addToOrder($product_id, $itemPrice, $productUrl, $quantity, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
+        } catch (Exception $err) {
+            trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+        }
     }
 }
 
-function fn_mootracker_delete_cart_product(&$cart, &$cart_id)
+/*function fn_mootracker_delete_cart_product(&$cart, &$cart_id)
 {
     if (!empty($cart_id)) {
         if (isset($cart['products'])) {
@@ -221,11 +217,15 @@ function fn_mootracker_delete_cart_product(&$cart, &$cart_id)
                 $props['itemCategory'] = get_category_names($product['category_ids']);
                 $props['itemManufacturer'] = get_product_manufacturer($product);
 
-                $tracker->removeFromOrder($product_id, $itemPrice, $productUrl, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
+                try {
+                    $tracker->removeFromOrder($product_id, $itemPrice, $productUrl, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
+                } catch (Exception $err) {
+                    trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+                }
             }
         }
     }
-}
+}*/
 
 function fn_mootracker_login_user_post()
 {
@@ -240,7 +240,11 @@ function fn_mootracker_login_user_post()
             $userEmail = fn_get_user_info($_SESSION['auth']['user_id'])['email'];
 
             if (!$tracker->isIdentified($userEmail)) {
-                $tracker->identify($userEmail, $userName, array(), true)->wait();
+                try {
+                    $tracker->identify($userEmail, $userName, array(), true)->wait();
+                } catch (Exception $err) {
+                    trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+                }
             }
         }
     }
@@ -263,7 +267,11 @@ function fn_mootracker_place_order($order_id, $action, $order_status, $cart, $au
 
         if ($order['email']) {
             if (!$tracker->isIdentified($order['email'])) {
-                $tracker->identify($order['email'], '', [], true)->wait();
+                try {
+                    $tracker->identify($order['email'], '', [], true)->wait();
+                } catch (Exception $err) {
+                    trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+                }
             }
         }
 
@@ -287,7 +295,11 @@ function fn_mootracker_place_order($order_id, $action, $order_status, $cart, $au
             $trackerOrder->addProduct($itemCode, $itemPrice, $productUrl, $itemQuantity, $itemPriceTotal, $instantiatedProduct['product'], $large_image_url, $props);
         }
 
-        $tracker->orderCompleted($trackerOrder, true)->wait();
+        try {
+            $tracker->orderCompleted($trackerOrder, true)->wait();
+        } catch (Exception $err) {
+            trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+        }
     }
 }
 
@@ -348,7 +360,11 @@ function fn_mootracker_get_product_data_post($product_data, $auth)
         $productUrl = fn_exim_get_product_url($product_id);
         $product = format_product_properties($product_data);
 
-        $tracker->pageView($productUrl, $product, true)->wait();
+        try {
+            $tracker->pageView($productUrl, $product, true)->wait();
+        } catch (Exception $err) {
+            trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+        }
     }
 }
 
@@ -358,7 +374,8 @@ function fn_mootracker_get_product_data_post($product_data, $auth)
  * @param int $quantity
  * @return void
  */
-function add_to_cart($product_id, $quantity) {
+function add_to_cart($product_id, $quantity)
+{
     $site_id = Registry::get('addons.mootracker')['site_id'];
     $tracker = get_tracker_factory($site_id);
     $auth = &Tygh::$app['session']['auth'];
@@ -377,7 +394,11 @@ function add_to_cart($product_id, $quantity) {
     $props['itemCategory'] = get_category_names($product['category_ids']);
     $props['itemManufacturer'] = get_product_manufacturer($product);
 
-    $tracker->addToOrder($product_id, $itemPrice, $productUrl, $quantity, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
+    try {
+        $tracker->addToOrder($product_id, $itemPrice, $productUrl, $quantity, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
+    } catch (Exception $err) {
+        trigger_error('Could not track events for MooTracker', E_USER_WARNING);
+    }
 }
 
 /**
@@ -386,7 +407,8 @@ function add_to_cart($product_id, $quantity) {
  * @param int $quantity
  * @return void
  */
-function remove_from_cart($product_id, $quantity) {
+function remove_from_cart($product_id, $quantity)
+{
     $site_id = Registry::get('addons.mootracker')['site_id'];
     $tracker = get_tracker_factory($site_id);
     $auth = &Tygh::$app['session']['auth'];
@@ -410,3 +432,6 @@ function remove_from_cart($product_id, $quantity) {
         $tracker->removeFromOrder($product_id, $itemPrice, $productUrl, $itemTotalPrice, $product['product'], $large_image_url, $props, true)->wait();
     }
 }
+
+// Save site id to a var to pass into script tpl file
+fn_define('MOOTRACK_SITEID', Registry::get('addons.mootracker')['site_id']);
